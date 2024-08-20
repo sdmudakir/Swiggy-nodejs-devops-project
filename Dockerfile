@@ -1,23 +1,19 @@
-# Use Node.js 16 slim as the base image
-FROM node:16
 
-# Set the working directory
+# Use Node.js based on Debian Slim as the base image
+FROM node:16-slim
+
+# Create and set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy the entire codebase to the working directory
+COPY . .
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
-COPY . .
-
-# Build the React app
-RUN npm run build
-
-# Expose port 3000 (or the port your app is configured to listen on)
+# Expose the port your app runs on
 EXPOSE 3000
 
-# Start your Node.js server (assuming it serves the React app)
-ENTRYPOINT ["npm", "start"]
+# Define the command to start your application
+CMD ["npm", "start"]
+
